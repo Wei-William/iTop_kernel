@@ -193,9 +193,15 @@ SUBARCH := $(shell uname -m | sed -e s/i.86/i386/ -e s/sun4u/sparc64/ \
 # Note: Some architectures assign CROSS_COMPILE in their arch/*/Makefile
 export KBUILD_BUILDHOST := $(SUBARCH)
 ARCH		?= arm
-CROSS_COMPILE   ?=/home/linux/toolchain/iTop-2009q3/bin/arm-none-linux-gnueabi-
+CROSS_COMPILE   ?= ~/toolchain/itop_kernel/bin/arm-none-linux-gnueabi-
 #CROSS_COMPILE   ?= /usr/local/arm/4.5.1/bin/arm-none-linux-gnueabi-
 CROSS_COMPILE	?= $(CONFIG_CROSS_COMPILE:"%"=%)
+
+#CROSS_COMPILE string Handle
+ifneq ($(findstring ~,$(CROSS_COMPILE)),)
+CROSS_COMPILE :=$(strip $(subst ~,$(HOME),$(CROSS_COMPILE)))
+$(warning "auto-modify toolchain path : $(CROSS_COMPILE)")
+endif
 
 # Architecture as present in compile.h
 UTS_MACHINE 	:= $(ARCH)
