@@ -72,15 +72,18 @@ extern void printascii(char *);
 #else
 #define DEFAULT_CONSOLE_LOGLEVEL 7 /* anything MORE serious than KERN_DEBUG */
 #endif
+
+#ifndef SELF_CONTROL_LOGLEVEL
+#define SELF_CONTROL_LOGLEVEL 3
+#endif
+
 DECLARE_WAIT_QUEUE_HEAD(log_wait);
-#if 1
 int console_printk[4] = {
-	DEFAULT_CONSOLE_LOGLEVEL,	/* console_loglevel */
+	SELF_CONTROL_LOGLEVEL,	/* console_loglevel */
 	DEFAULT_MESSAGE_LOGLEVEL,	/* default_message_loglevel */
 	MINIMUM_CONSOLE_LOGLEVEL,	/* minimum_console_loglevel */
 	DEFAULT_CONSOLE_LOGLEVEL,	/* default_console_loglevel */
 };
-#endif
 /*
  * Low level drivers may need that to know if they can schedule in
  * their unblank() callback or not. So let's export it.
